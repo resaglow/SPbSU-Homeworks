@@ -1,6 +1,8 @@
-module Huffman
+(* Artem Lobanov (c) 2014
+   Making Huffman tree
+*)
 
-open System
+module Huffman
 
 // For F# 3.0+ use this:
 //type CodeTree = 
@@ -18,7 +20,7 @@ type CodeTree =
 let weight (tree : CodeTree) : int = 
     match tree with 
     | Fork (_, _, _, weight) -> weight
-    | Leaf (_, _) -> 1
+    | Leaf (_, weight) -> weight
 
 let chars (tree : CodeTree) : char list = 
     match tree with 
@@ -68,13 +70,6 @@ let makeOrderedLeafList (dict : (char * int) list) : CodeTree list =
                
     makeOrderedLeafList' dict [] []
 
-let myList = ['a'; 'b'; 'a']
-
-let dict = times myList
-printfn "%A" dict
-let ordLeaf = makeOrderedLeafList dict
-printfn "%A" ordLeaf
-
 let singleton (treeList : CodeTree list) = 
     match treeList with 
     | [tree] -> true
@@ -84,6 +79,20 @@ let combine (treeList: CodeTree list) : CodeTree list =
     let leastLeaf = treeList.Head
     let sndLeastLeaf = treeList.Tail.Head
     let combinedLeaf = makeCodeTree leastLeaf sndLeastLeaf
-    combinedLeaf :: (treeList.Tail.Tail)
+    combinedLeaf :: (treeList.Tail.Tail) |> List.sortBy (fun x -> weight x) 
     
 
+let rec getTree (treeList: CodeTree list) : CodeTree = 
+    if singleton treeList then 
+        match treeList with 
+        | [tree] -> tree
+        | _ -> failwith "Error"
+    else getTree (combine treeList)
+
+let myStr = "fjfjfjfjfjfhrhfjthajfhaffjafjfhajfafhafhfjajfahjfahfjafhafjahfajfh"
+let myList = string2chars myStr
+let dict = times myList
+let ordLeaf = makeOrderedLeafList dict
+let tree = getTree ordLeaf
+
+printfn "%A" tree
