@@ -124,12 +124,12 @@ type Beastie() =
     member this.LeaveHelp (helper : Mascot) = this.Mood <- this.Mood - helper.Mood
                                               this.FightSkill <- this.FightSkill - helper.FightSkill
 
-    member this.WikipeFight (enemy : Mascot) = let mutable result = this.Fight enemy 
+    member this.BeastieFight (enemy : Mascot) = let mutable result = this.Fight enemy 
 
                                                if result <> 1 then
                                                    let helper = new SuperMascot ()                 
                                                    this.GetHelp helper
-                                                   result <- this.WikipeFight enemy
+                                                   result <- this.BeastieFight enemy
                                                    this.LeaveHelp helper
                                                result
 
@@ -149,7 +149,7 @@ type Programmer(name : string) =
                                               
                                               let result = (match mascot1 with
                                                             | :? Tux as mascotTux -> mascotTux.TuxFight mascot2
-                                                            | :? Beastie as mascotBeastie -> mascotBeastie.WikipeFight mascot2
+                                                            | :? Beastie as mascotBeastie -> mascotBeastie.BeastieFight mascot2
                                                             | _ -> mascot1.Fight mascot2
                                                            )
 
