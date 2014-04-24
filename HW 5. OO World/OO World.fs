@@ -16,12 +16,12 @@ type Character(name : string) =
     abstract member Mood : int with get, set
     default this.Mood
         with get () = mood
-        and set (value) = mood <- value
+        and set value = mood <- value
         
     abstract member FightSkill : int with get, set
     default this.FightSkill
         with get () = fightSkill
-        and set (value) = fightSkill <- value
+        and set value = fightSkill <- value
 
 
 type Mascot(name : string, orgName : string) = 
@@ -125,13 +125,13 @@ type Beastie() =
                                               this.FightSkill <- this.FightSkill - helper.FightSkill
 
     member this.BeastieFight (enemy : Mascot) = let mutable result = this.Fight enemy 
-
-                                               if result <> 1 then
-                                                   let helper = new SuperMascot ()                 
-                                                   this.GetHelp helper
-                                                   result <- this.BeastieFight enemy
-                                                   this.LeaveHelp helper
-                                               result
+                                                
+                                                if result <> 1 then
+                                                    let helper = new SuperMascot ()                 
+                                                    this.GetHelp helper
+                                                    result <- this.BeastieFight enemy
+                                                    this.LeaveHelp helper
+                                                result
 
 
 type Programmer(name : string) =
