@@ -1,9 +1,0 @@
-c:\users\resaglow\documents\visual studio 2013\Projects\Chatterbot\Chatterbot\bin\Debug\Chatterbot.exe.config
-c:\users\resaglow\documents\visual studio 2013\Projects\Chatterbot\Chatterbot\bin\Debug\Chatterbot.XML
-c:\users\resaglow\documents\visual studio 2013\Projects\Chatterbot\Chatterbot\bin\Debug\Chatterbot.exe
-c:\users\resaglow\documents\visual studio 2013\Projects\Chatterbot\Chatterbot\bin\Debug\Chatterbot.pdb
-c:\users\resaglow\documents\visual studio 2013\Projects\Chatterbot\Chatterbot\bin\Debug\FSharp.Core.dll
-c:\users\resaglow\documents\visual studio 2013\Projects\Chatterbot\Chatterbot\bin\Debug\FSharp.Core.xml
-c:\users\resaglow\documents\visual studio 2013\Projects\Chatterbot\Chatterbot\obj\Debug\Chatterbot.exe
-c:\users\resaglow\documents\visual studio 2013\Projects\Chatterbot\Chatterbot\obj\Debug\Chatterbot.pdb
-C:\Users\resaglow\Documents\Visual Studio 2013\Projects\Chatterbot\Chatterbot\bin\Debug\ChatterBotAPI.dll

@@ -33,7 +33,7 @@ let getUrl url fn =
             ()
         else
             // Finally call callback
-            fn <| requestData.ToString()
+            fn (requestData.ToString())
             responseStream.Close()
 
 

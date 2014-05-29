@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Intersect", "Intersect\Intersect.fsproj", "{56A057BC-C646-43BC-B4CF-B07F5F740C10}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "IntersectTests", "IntersectTests\IntersectTests.fsproj", "{C94E9CD2-56FC-4233-A489-DD3F6564B2EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56A057BC-C646-43BC-B4CF-B07F5F740C10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56A057BC-C646-43BC-B4CF-B07F5F740C10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56A057BC-C646-43BC-B4CF-B07F5F740C10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56A057BC-C646-43BC-B4CF-B07F5F740C10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C94E9CD2-56FC-4233-A489-DD3F6564B2EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C94E9CD2-56FC-4233-A489-DD3F6564B2EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C94E9CD2-56FC-4233-A489-DD3F6564B2EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C94E9CD2-56FC-4233-A489-DD3F6564B2EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
