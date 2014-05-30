@@ -10,6 +10,8 @@ open MapCPS
 
 let myUrlList = ["http://vk.com/durov"]
 
+
+
 // given a webpage HTML outputs a list of image urls is there are >= 5 such
 let rec getUrlList (curIndex:int) (curList:string list) (url:string) cont = 
    let imgIndex = url.IndexOf("<img", curIndex)
@@ -23,6 +25,16 @@ let rec getUrlList (curIndex:int) (curList:string list) (url:string) cont =
 
       getUrlList (urlEndIndex + 1) (curUrl :: curList) url cont
 
-let imageList = mapCPS myUrlList getUrl (fun htmlList -> mapCPS htmlList (getUrlList 0 []) (printfn "%A"))
+let imageParse urlList =
+    let flag = ref false
+    let wait() = while not !flag do Threading.Thread.Sleep(2000)
 
-ignore <| Console.ReadLine()
+    mapCPS urlList getUrl (fun htmlList -> mapCPS htmlList (getUrlList 0 []) (fun imgList ->
+        printfn "%A" << Seq.toList << Seq.distinct <| List.concat imgList
+        flag := true
+        )
+    )
+    
+    wait()
+
+imageParse myUrlList

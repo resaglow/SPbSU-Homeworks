@@ -125,6 +125,7 @@ module AVLTreeMap =
 
     type Map<'K, 'V when 'K: comparison and 'V: comparison>(givenTree: AVLTree<'K, 'V>) =
 
+        member this.Empty = isEmpty givenTree
         member this.Add k v = new Map<_, _>(add k v givenTree)
         member this.Remove k = new Map<_, _>(remove k givenTree)
         member this.TryFind k = tryFind k givenTree
