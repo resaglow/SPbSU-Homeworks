@@ -9,7 +9,7 @@ open System.Collections
 
 type AVLTree<'K, 'V> = 
     | Empty
-    | Node of left: AVLTree<'K, 'V> * right: AVLTree<'K, 'V> * key: 'K * value: 'V * leftHeight: int * rightHeight: int   
+    | Node of left:AVLTree<'K, 'V> * right:AVLTree<'K, 'V> * key:'K * value:'V * leftHeight:int * rightHeight:int   
 
 let getHeight = function
     | Empty -> 0 
@@ -20,11 +20,11 @@ let getBalance = function
     | Node(_, _, _, _, lh, rh) -> lh - rh   
     
 let getLeft = function
-    | Empty -> failwith "trying to get a left subtree of an empty tree"
+    | Empty -> failwith "Trying to get a left subtree of an empty tree"
     | Node(lt, _, _, _, _, _) -> lt  
         
 let getRight = function
-    | Empty -> failwith "trying to get a right subtree of an empty tree"  
+    | Empty -> failwith "Trying to get a right subtree of an empty tree"  
     | Node(_, rt, _, _, _, _) -> rt 
         
 let isEmpty = function
@@ -124,8 +124,8 @@ let rec tryFind key = function
         else if key > k then tryFind key rt
         else tryFind key lt    
 
-type Map<'K, 'V when 'K: comparison and 'V: comparison>(givenTree: AVLTree<'K, 'V>) =
-    new (source: seq<'K * 'V>) =
+type Map<'K, 'V when 'K: comparison and 'V: comparison>(givenTree:AVLTree<'K, 'V>) =
+    new (source:seq<'K * 'V>) =
         let curTree = ref AVLTree.Empty
         let rec add' = function
             | [] -> curTree
@@ -150,7 +150,7 @@ type Map<'K, 'V when 'K: comparison and 'V: comparison>(givenTree: AVLTree<'K, '
         count givenTree
 
     override this.ToString() = 
-        let rec mapToString= function
+        let rec mapToString = function
             | Empty -> ""
             | Node(lt, rt, k, v, _, _) -> mapToString lt + "key: " + k.ToString() + " - value: " + v.ToString() + "\n" + mapToString rt
         mapToString givenTree

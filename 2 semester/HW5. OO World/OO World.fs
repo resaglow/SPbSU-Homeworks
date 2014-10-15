@@ -200,11 +200,10 @@ let superMan2 = new Mascot("superMan2", "Earth")
 superMan2.Train 20
 
 let myMascotList = 
-    [superMan1
-     superMan2
-     tux1 :> Mascot
-     beastie1 :> Mascot
-    ]
+    [ superMan1
+      superMan2
+      tux1 :> Mascot
+      beastie1 :> Mascot ]
     
 let myVasya = new Programmer("Vasya")
 
