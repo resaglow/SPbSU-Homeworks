@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9AA28B
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "EmailDetectorTests", "EmailDetectorTests\EmailDetectorTests.fsproj", "{9EB13256-4724-4FC2-AB75-CFE2CC918EAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{6C551425-E47F-443E-997B-22BD91C429CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C551425-E47F-443E-997B-22BD91C429CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C551425-E47F-443E-997B-22BD91C429CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EB13256-4724-4FC2-AB75-CFE2CC918EAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB13256-4724-4FC2-AB75-CFE2CC918EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB13256-4724-4FC2-AB75-CFE2CC918EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB13256-4724-4FC2-AB75-CFE2CC918EAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
