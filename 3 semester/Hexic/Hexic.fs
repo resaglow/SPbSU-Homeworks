@@ -5,7 +5,7 @@
 
 module Hexic 
 
-let N, M = 5, 6
+let N, M = 5, 7
 let colorsCount = 5
 let empty = 0
 type RotateType = CW | CCW
@@ -74,8 +74,8 @@ let rotate rotateType = function
     | [(i1, j1); (i2, j2); (i3, j3)] ->
         let cell1, cell2, cell3 = field.[i1, j1], field.[i2, j2], field.[i3, j3]
         match rotateType with
-        | CW ->  field.[i1, j1] <- cell3, field.[i2, j2] <- cell1, field.[i3, j3] <- cell2
-        | CCW -> field.[i1, j1] <- cell2, field.[i2, j2] <- cell3, field.[i3, j3] <- cell1
+        | CW ->  field.[i1, j1] <- cell3; field.[i2, j2] <- cell1; field.[i3, j3] <- cell2
+        | CCW -> field.[i1, j1] <- cell2; field.[i2, j2] <- cell3; field.[i3, j3] <- cell1
     | _ -> failwith "Triple is not actually a triple"
 
 let hexic () =
@@ -84,7 +84,7 @@ let hexic () =
 
     let removeAndShift (sameColored:(int * int) list list) = 
         let toRemove = bfs <| [] <| sameColored.[0]
-        if !started then points := !points + countPoints <| toRemove.Length else ()
+        if !started then points := !points + countPoints toRemove.Length else ()
         for (i, j) in toRemove do field.[i, j] <- empty
         shiftEmpties ()
 
@@ -93,7 +93,6 @@ let hexic () =
 
         if triples = [] then
             started := true
-            printfn "INIT END."
         else 
             removeAndShift triples
             initGame ()
@@ -114,13 +113,13 @@ let hexic () =
             else removeAndShift (sameColored)
                  play <| allTriples ()  
             
-        | [] -> printfn "TAAAAAA DAAAAAAAAAA, THEEEE EEEEEEENDDD!!!"
+        | [] -> ()
         | _ -> failwith "Stange triple"
 
     initGame ()
     play <| allTriples ()
     
-    printfn "%A points overall" !points
+    printfn "%A points overall." !points
 
 
 hexic ()
