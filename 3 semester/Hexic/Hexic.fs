@@ -5,8 +5,11 @@
 
 module Hexic 
 
-let N, M = 5, 7
-let colorsCount = 5
+open System
+
+let N = Convert.ToInt32(Console.ReadLine())
+let M = Convert.ToInt32(Console.ReadLine())
+let colorsCount = 6
 let empty = 0
 type RotateType = CW | CCW
 let countPoints = function 
@@ -17,8 +20,9 @@ let countPoints = function
     | 5 -> 10
     | x -> x * (x + 1) / 2
 
-let random = new System.Random(121)
-let mutable field = Array2D.init N M (fun _ _ -> random.Next(10) % 5 + 1) 
+
+let random = new Random(Convert.ToInt32(Console.ReadLine()))
+let mutable field = Array2D.init N M (fun _ _ -> random.Next(colorsCount) + 1)
 
 let neighbours i j = 
     let possibleNeighbours invalidList = [for p in -1..1 do 
@@ -62,12 +66,15 @@ let sameColoredTriples () =
         | _ -> failwith "Triple is not actually a triple"
         ) <| allTriples ()
 
-let shiftEmpties () = 
+let shiftEmpties () =
+    let mutable emptiesCount = 0
     for j in 0..M - 1 do
         let filteredColumn = (Array.filter <| ((<>) empty) <| field.[*, j])
         let columnLen = Array.length filteredColumn
-        field.[*, j] <- [| for i in 0..N - columnLen - 1 do yield random.Next(10) % colorsCount + 1
+        emptiesCount <- emptiesCount + (N - columnLen)
+        field.[*, j] <- [| for i in 0..N - columnLen - 1 do yield random.Next(colorsCount) + 1
                            for i in N - columnLen..N - 1 do yield filteredColumn.[i - (N - columnLen)] |]
+    emptiesCount
 
 // Presumably 1 2 3 are clockwise
 let rotate rotateType = function
@@ -82,11 +89,14 @@ let hexic () =
     let started = ref false
     let points = ref 0
 
-    let removeAndShift (sameColored:(int * int) list list) = 
-        let toRemove = bfs <| [] <| sameColored.[0]
-        if !started then points := !points + countPoints toRemove.Length else ()
-        for (i, j) in toRemove do field.[i, j] <- empty
-        shiftEmpties ()
+    let rec removeAndShift (sameColored:(int * int) list list) = 
+        if sameColored.Length = 0 then 
+            let addScore = shiftEmpties ()
+            if !started then points := !points + 3 * int((2.0) ** float((addScore) - 3)) else ()            
+        else
+            let toRemove = bfs [] (sameColored.[0]) 
+            for (i, j) in toRemove do field.[i, j] <- empty
+            removeAndShift (sameColoredTriples ())
 
     let rec initGame () = 
         let triples = sameColoredTriples ()
@@ -97,8 +107,8 @@ let hexic () =
             removeAndShift triples
             initGame ()
 
-    let rec play all =      
-        match all with
+    let rec play triples =      
+        match triples with
         | triple :: rest -> 
             rotate CW triple
             let sameColored = sameColoredTriples ()
@@ -109,7 +119,7 @@ let hexic () =
                     rotate CW triple
                     play rest
                 else removeAndShift (sameColored2)
-                     play <| allTriples ()  
+                     play <| allTriples ()
             else removeAndShift (sameColored)
                  play <| allTriples ()  
             
@@ -119,7 +129,7 @@ let hexic () =
     initGame ()
     play <| allTriples ()
     
+    
     printfn "%A points overall." !points
-
 
 hexic ()

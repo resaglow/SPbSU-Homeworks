@@ -22,7 +22,7 @@ let mutable field = Array2D.init N M (fun _ _ -> random.Next(10) % 5 + 1)
 
 let printField () = 
     for i in 0..N - 1 do
-        for j in 0..M - 1 do    
+        for j in 0..M - 1 do
             if j % 2 = 0 then 
                 if field.[i, j] = 0 then printf "#"
                 else printf "%A" field.[i, j] 
