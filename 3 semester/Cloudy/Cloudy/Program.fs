@@ -44,21 +44,24 @@ type IMagic =
 
 type Cloud(daylight:IDaylight, luminary:ILuminary, wind:IWind, magic:IMagic) = 
     member private x.InternalCreate() =
-        if luminary.IsShining then
-            if wind.Speed >= 0 && wind.Speed <= 5 then  
-                if daylight.Current = Morning || daylight.Current = Day then (Stork, Puppy) 
-                else (Stork, Kitten)
-            else 
-                if daylight.Current = Morning || daylight.Current = Evening then (Daemon, Hedgehog)
-                else (Stork, Bat)
-        else 
-            if wind.Speed >= 0 && wind.Speed <= 3 then 
-                if daylight.Current = Night then (Daemon, Balloon)
-                else if daylight.Current = Day || daylight.Current = Morning then (Daemon, Bearcub)
-                else (Stork, Piglet)
-            else if wind.Speed >= 4 && wind.Speed <= 7 then (Stork, Balloon)
+        match luminary.IsShining, wind.Speed, daylight.Current with
+        | true, speed, time ->
+            if speed >= 0 && speed <= 5 then
+                match time with | Morning | Day -> (Stork, Puppy) 
+                                | _ -> (Stork, Kitten)
+            else if speed >= 6 && speed <= 10 then
+                match time with | Morning | Evening -> (Daemon, Hedgehog)
+                                | _ -> (Stork, Bat)
+            else failwith "speedoverflow"
 
-            else (Daemon, Hedgehog)
+        | false, speed, time ->
+            if speed >= 0 && speed <= 3 then
+                match time with | Night -> (Daemon, Balloon)
+                                | Day | Morning -> (Daemon, Bearcub)
+                                | Evening -> (Stork, Piglet)
+            else if speed >= 4 && speed <= 7 then (Stork, Balloon)
+            else if speed >= 7 && speed <= 10 then (Daemon, Hedgehog)
+            else failwith "speedoverflow"
  
     member x.Create() =
         let (courierType, creatureType) = x.InternalCreate()
