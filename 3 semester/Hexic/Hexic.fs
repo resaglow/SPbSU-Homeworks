@@ -7,9 +7,12 @@ module Hexic
 
 open System
 
-let N = Convert.ToInt32(Console.ReadLine())
-let M = Convert.ToInt32(Console.ReadLine())
+// Input data
+let N = 5
+let M = 7
+let random = 121
 let colorsCount = 6
+
 let empty = 0
 type RotateType = CW | CCW
 let countPoints = function 
@@ -21,7 +24,6 @@ let countPoints = function
     | x -> x * (x + 1) / 2
 
 
-let random = new Random(Convert.ToInt32(Console.ReadLine()))
 let mutable field = Array2D.init N M (fun _ _ -> random.Next(colorsCount) + 1)
 
 let neighbours i j = 
@@ -92,7 +94,7 @@ let hexic () =
     let rec removeAndShift (sameColored:(int * int) list list) = 
         if sameColored.Length = 0 then 
             let addScore = shiftEmpties ()
-            if !started then points := !points + 3 * int((2.0) ** float((addScore) - 3)) else ()            
+            if !started then points := points + countPoints addScore else ()            
         else
             let toRemove = bfs [] (sameColored.[0]) 
             for (i, j) in toRemove do field.[i, j] <- empty
