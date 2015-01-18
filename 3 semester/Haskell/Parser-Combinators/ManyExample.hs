@@ -38,7 +38,7 @@ many' p = P (\s -> concat [apply ((\x -> P (\s2 -> concat [apply ((\list -> val 
 manySymC = P (\s -> concat [apply ((\x -> P (\s2 -> concat [apply ((\list -> val (x:list)) a2) s3 | (a2, s3) <- apply (many symC) s2])) a) s1 | (a, s1) <- apply symC s] ++ [([], s)])
 
 appliedManySymC s = 
-	concat [apply ((\x -> P (\s2 -> concat [apply ((\list -> val (x:list)) a2) s3 | (a2, s3) <- apply (many symC) s2])) a) s1 | (a, s1) <- apply symC s] ++ [([], s)]
+	concat [apply ((\x -> P (\s2 -> concat [apply ((\list -> val (x:list)) a2) s3 | (a2, s3) <- appliedManySymC s2])) a) s1 | (a, s1) <- apply symC s] ++ [([], s)]
 
 
 appliedManySymC "cclol" = 
