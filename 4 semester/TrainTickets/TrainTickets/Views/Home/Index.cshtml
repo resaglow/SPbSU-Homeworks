@@ -1,0 +1,101 @@
+﻿@model IEnumerable<TrainTickets.Models.Ticket>
+
+@{
+    ViewBag.Title = "Tickets";
+}
+
+<h2></h2>
+
+
+@if (User.Identity.IsAuthenticated && User.Identity.Name == "admin") 
+{
+    <p>
+        @Html.ActionLink("Create new ticket", "Create")
+    </p>
+}
+
+@if (ViewBag.NotLoggedIn != null)
+{
+    <h3 class="alert-danger">Not logged in!</h3>
+}
+@if (ViewBag.NotEnoughMoney != null)
+{
+    <h3 class="alert-danger">Not enough money!</h3>
+}
+
+@if (Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.From)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.To)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateFrom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.From)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.To)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateFrom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTo)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @if (Request.IsAuthenticated && User.Identity.Name == "admin")
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                }
+                else
+                {
+                    using (Html.BeginForm("Buy", "Home")) { 
+                        @Html.AntiForgeryToken()
+                
+                        <input type="hidden" name="username" value="@User.Identity.Name" />
+                        <input type="hidden" name="price" value=@Html.DisplayFor(modelItem => item.Price) />
+                        <input type="hidden" name="ticketId" value="@Html.DisplayFor(modelItem => item.Id)" />
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Buy" class="btn btn-success" />
+                            </div>
+                        </div>
+                    }
+                }
+            </td>
+        </tr>
+        }
+    </table>
+
+}
+else
+{
+    <h1 class="text-center">No tickets for now:(</h1>
+}
