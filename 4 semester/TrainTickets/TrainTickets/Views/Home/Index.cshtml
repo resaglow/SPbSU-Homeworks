@@ -7,7 +7,7 @@
 <h2></h2>
 
 
-@if (User.Identity.IsAuthenticated && User.Identity.Name == "admin") 
+@if (User.Identity.IsAuthenticated && User.Identity.Name == "admin@admin.com")
 {
     <p>
         @Html.ActionLink("Create new ticket", "Create")
@@ -47,50 +47,52 @@
             </th>
             <th></th>
         </tr>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.From)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.To)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateFrom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTo)
-            </td>
-            <td>
-                $@Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @if (Request.IsAuthenticated && User.Identity.Name == "admin")
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                }
-                else
-                {
-                    using (Html.BeginForm("Buy", "Home")) { 
-                        @Html.AntiForgeryToken()
-                
-                        <input type="hidden" name="username" value="@User.Identity.Name" />
-                        <input type="hidden" name="price" value=@Html.DisplayFor(modelItem => item.Price) />
-                        <input type="hidden" name="ticketId" value="@Html.DisplayFor(modelItem => item.Id)" />
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Buy" class="btn btn-success" />
-                            </div>
-                        </div>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.From)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.To)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateFrom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTo)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @if (Request.IsAuthenticated && User.Identity.Name == "admin@admin.com")
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                     }
-                }
-            </td>
-        </tr>
+                    else
+                    {
+                        using (Html.BeginForm("Buy", "Home"))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="username" value="@User.Identity.Name" />
+                            <input type="hidden" name="price" value=@Html.DisplayFor(modelItem => item.Price) />
+                            <input type="hidden" name="ticketId" value="@Html.DisplayFor(modelItem => item.Id)" />
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Buy" class="btn btn-success" />
+                                </div>
+                            </div>
+                        }
+                    }
+                </td>
+            </tr>
         }
     </table>
 

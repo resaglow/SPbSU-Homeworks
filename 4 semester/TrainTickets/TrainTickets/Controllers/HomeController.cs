@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using TrainTickets.Models;
 
 namespace TrainTickets.Controllers
@@ -23,15 +23,14 @@ namespace TrainTickets.Controllers
         public HomeController()
         {
             Store = new UserStore<ApplicationUser>(new ApplicationDbContext());
-            UserManager = new UserManager<ApplicationUser>(Store);            
+            UserManager = new UserManager<ApplicationUser>(Store);
         }
 
-        // GET: /Home/
-        [HttpGet]
+        // GET: Home
         public ActionResult Index()
         {
             var tickets = from ticket in db.Tickets
-                            select ticket;
+                          select ticket;
 
             tickets = tickets.Where(x => x.OwnerLogin == null && x.DateFrom > DateTime.Now);
 
@@ -66,7 +65,7 @@ namespace TrainTickets.Controllers
 
                 var boughtTicket = db.Tickets.Find(Convert.ToInt64(ticketId));
                 boughtTicket.OwnerLogin = username;
-                db.SaveChanges();                
+                db.SaveChanges();
 
                 var result = await UserManager.UpdateAsync(user);
                 Store.Context.SaveChanges();
@@ -75,16 +74,18 @@ namespace TrainTickets.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: /Home/Create
+        // GET: Home/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: /Home/Create
+        // POST: Home/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,Number,OwnerLogin,From,To,DateFrom,DateTo,Price")] Ticket ticket)
+        public ActionResult Create([Bind(Include = "Id,Number,OwnerLogin,From,To,DateFrom,DateTo,Price")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +97,7 @@ namespace TrainTickets.Controllers
             return View(ticket);
         }
 
-        // GET: /Home/Edit/5
+        // GET: Home/Edit/5
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -111,10 +112,12 @@ namespace TrainTickets.Controllers
             return View(ticket);
         }
 
-        // POST: /Home/Edit/5
+        // POST: Home/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,Number,OwnerLogin,From,To,DateFrom,DateTo,Price")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "Id,Number,OwnerLogin,From,To,DateFrom,DateTo,Price")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -125,7 +128,7 @@ namespace TrainTickets.Controllers
             return View(ticket);
         }
 
-        // GET: /Home/Delete/5
+        // GET: Home/Delete/5
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -140,7 +143,7 @@ namespace TrainTickets.Controllers
             return View(ticket);
         }
 
-        // POST: /Home/Delete/5
+        // POST: Home/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)

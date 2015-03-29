@@ -4,8 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
 
 namespace TrainTickets.Models
 {
@@ -15,6 +13,7 @@ namespace TrainTickets.Models
 
         public int Number { get; set; }
 
+        [Display(Name="Owner login")]
         public string OwnerLogin { get; set; }
 
         public string From { get; set; }

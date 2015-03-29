@@ -1,0 +1,100 @@
+﻿@model TrainTickets.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+
+@if (!(Request.IsAuthenticated && User.Identity.Name == "admin@admin.com"))
+{
+
+    using (Html.BeginForm("SetMoney", "Manage"))
+    {
+        <div class="form-group">
+            <span style="font-size:large">Your money:@Model.UserMoney &ensp;</span>
+            <input class="text-box single-line"
+                   data-val="true"
+                   data-val-number="The field UserMoney must be a number."
+                   data-val-required="The UserMoney field is required."
+                   id="UserMoney" name="UserMoney" type="text" />
+            <input type="submit" value="Set money" class="btn btn-default" />
+            @Html.ValidationMessageFor(model => model.UserMoney)
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+            </div>
+        </div>
+    }
+
+    <h3>Your tickets</h3>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTickets[0].Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTickets[0].From)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTickets[0].To)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTickets[0].DateFrom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTickets[0].DateTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTickets[0].Price)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.UserTickets)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.From)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.To)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateFrom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTo)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @using (Html.BeginForm("UnBuy", "Manage"))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="ticketId" value="@Html.DisplayFor(modelItem => item.Id)" />
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Unbuy" class="btn btn-success" />
+                            </div>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+}
+else
+{
+    <h1 class="text-center">You are an admin, nothing to show</h1>
+}
