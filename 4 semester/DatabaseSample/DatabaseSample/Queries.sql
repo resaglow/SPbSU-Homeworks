@@ -28,15 +28,15 @@ SELECT SUM([Cost]) FROM [Order]
 
 -- 2.	Получить список водителей, отсортированный по количеству выполненных заказов 
 SELECT c.[Driver] FROM [Car] c, (
-	SELECT [CarNumber], COUNT([CarNumber]) AS CarOrderCount FROM [Order]
-	GROUP BY [CarNumber]
+    SELECT [CarNumber], COUNT([CarNumber]) AS CarOrderCount FROM [Order]
+    GROUP BY [CarNumber]
 ) t WHERE c.[Number] = t.[CarNumber]
 ORDER BY CarOrderCount
 
 -- 3.	Выбрать постоянных клиентов (не менее 5 выполненных заказов)
 SELECT cl.[Name] FROM [Client] cl, (
-	SELECT [ClientId], COUNT([ClientId]) AS ClientOrderCount FROM [Order]
-	GROUP BY [ClientId]
+    SELECT [ClientId], COUNT([ClientId]) AS ClientOrderCount FROM [Order]
+    GROUP BY [ClientId]
 ) t WHERE cl.[Id] = t.[ClientId] AND t.ClientOrderCount >= 5
 
 --Примеры на редактирование:
@@ -48,7 +48,7 @@ WHERE [Name] = N'Сидоров'
 -- 2.	Удалить клиента Сидорова и все его заказы.
 DELETE FROM [Order]
 WHERE [ClientId] IN (
-	SELECT [Id] FROM [Client] WHERE [Name] = N'Сидоров'
+    SELECT [Id] FROM [Client] WHERE [Name] = N'Сидоров'
 )
 
 DELETE FROM [Client]
