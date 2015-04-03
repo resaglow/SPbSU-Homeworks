@@ -6,7 +6,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TrainTickets.Models;
@@ -16,6 +15,8 @@ namespace TrainTickets.Controllers
     public class HomeController : Controller
     {
         private TicketsDbContext db = new TicketsDbContext();
+
+        private static object Lock = new object();
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
         public UserStore<ApplicationUser> Store { get; private set; }
@@ -41,37 +42,40 @@ namespace TrainTickets.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Buy()
+        public ActionResult Buy()
         {
-            if (!User.Identity.IsAuthenticated)
+            lock (Lock)
             {
-                TempData["NotLoggedIn"] = "Not";
-            }
-            else
-            {
-                var username = Request["username"];
-                var ticketId = Request["ticketId"];
-                var price = Convert.ToDecimal(Request["price"]);
-
-                var user = UserManager.FindById(User.Identity.GetUserId());
-
-                if (user.UserMoney < price)
+                if (!User.Identity.IsAuthenticated)
                 {
-                    TempData["NotEnoughMoney"] = "Not";
-                    return RedirectToAction("Index");
+                    TempData["NotLoggedIn"] = "Not";
+                }
+                else
+                {
+                    var username = Request["username"];
+                    var ticketId = Request["ticketId"];
+                    var price = Convert.ToDecimal(Request["price"]);
+
+                    var user = UserManager.FindById(User.Identity.GetUserId());
+
+                    if (user.UserMoney < price)
+                    {
+                        TempData["NotEnoughMoney"] = "Not";
+                        return RedirectToAction("Index");
+                    }
+
+                    user.UserMoney -= price;
+
+                    var boughtTicket = db.Tickets.Find(Convert.ToInt64(ticketId));
+                    boughtTicket.OwnerLogin = username;
+                    db.SaveChanges();
+
+                    var result = UserManager.UpdateAsync(user);
+                    Store.Context.SaveChanges();
                 }
 
-                user.UserMoney -= price;
-
-                var boughtTicket = db.Tickets.Find(Convert.ToInt64(ticketId));
-                boughtTicket.OwnerLogin = username;
-                db.SaveChanges();
-
-                var result = await UserManager.UpdateAsync(user);
-                Store.Context.SaveChanges();
+                return RedirectToAction("Index");
             }
-
-            return RedirectToAction("Index");
         }
 
         // GET: Home/Create
