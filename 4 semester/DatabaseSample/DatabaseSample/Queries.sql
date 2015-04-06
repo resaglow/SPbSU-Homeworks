@@ -27,7 +27,7 @@ WHERE o.[CarNumber] = c.[Number] AND o.[DateTime] BETWEEN '2005/09/01 12:00' AND
 SELECT SUM([Cost]) FROM [Order]
 
 -- 2.	Получить список водителей, отсортированный по количеству выполненных заказов 
-SELECT * FROM [Car] c, (
+SELECT [Driver] FROM [Car] c, (
     SELECT [CarNumber], COUNT([CarNumber]) AS CarOrderCount FROM [Order]
 	WHERE [OrderStatus] = N'Выполнен'
     GROUP BY [CarNumber]
