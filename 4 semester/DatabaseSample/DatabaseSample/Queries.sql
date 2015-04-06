@@ -14,7 +14,7 @@ ORDER BY [FreePlacesCount]
 
 -- 4.	Выбрать номера и фамилии водителей всех белых автомобилей  BMV, у которых в номере встречается цифра 2. Список упорядочить по фамилии водителя.
 SELECT [Number], [Driver] FROM [Car]
-WHERE CHARINDEX('2', [Number]) > 0 AND [Brand] = N'BMW'
+WHERE CHARINDEX('2', [Number]) > 0 AND [Brand] = N'BMW' AND [Color] = N'Белый'
 ORDER BY [Driver] 
 
 -- 5.	Выдать номера автомобилей, время заказа и фамилии водителей, принимавших заказы с 12:00 до 19:00 1 сентября 2005 года.
