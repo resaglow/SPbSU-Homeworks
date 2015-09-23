@@ -44,9 +44,10 @@ subst' lambda x b = case lambda of
 	           | otherwise -> Var string
 	App lambda1 lambda2 -> App (subst' lambda1 x b) (subst' lambda2 x b)
 	Lam param body | param == x -> Lam param body
-		           | otherwise -> if not $ elem param (fv b) then Lam param (subst' body x b)
-		                  	      else subst' (Lam curNewSym (subst' body param (Var curNewSym))) x b where
-		                  	          curNewSym = newSym "z" "z" body b where
+		           | otherwise -> 
+		               if not $ elem param (fv b) then Lam param (subst' body x b)
+		               else subst' (Lam curNewSym (subst' body param (Var curNewSym))) x b where
+		                   curNewSym = newSym "z" "z" body b where
 
 
 

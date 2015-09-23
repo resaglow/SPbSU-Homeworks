@@ -11,11 +11,13 @@ instance Num Peano where
         case peano1 of 
             Zero -> peano2
             Succ prePeano1 -> prePeano1 + (Succ peano2)
+
     peano1 - peano2 =
         case (peano1, peano2) of 
             (Zero, _) -> Zero
             (peano1, Zero) -> peano1
             (Succ prePeano1, Succ prePeano2) -> prePeano1 - prePeano2
+    
     peano1 * peano2 = 
         case (peano1, peano2) of
             (peano1, Succ Zero) -> peano1
