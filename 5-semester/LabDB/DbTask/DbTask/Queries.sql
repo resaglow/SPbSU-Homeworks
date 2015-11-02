@@ -195,6 +195,8 @@ BEGIN
 	IF (@resId IS NULL) ROLLBACK
 END
 
+GO
+
 INSERT INTO RawMaterial(name, materialWeight, researcherId) VALUES ('New Material', 1001, NULL)
 
 GO
@@ -215,6 +217,8 @@ BEGIN
 		SET Researcher.degree = 1
 		WHERE Researcher.id = @researcherId
 END
+
+GO
 
 INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (5, 8, '2005-09-01');
 INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (5, 8, '2005-10-14');
@@ -284,6 +288,8 @@ AS BEGIN
 	IF @@ERROR != 0 ROLLBACK TRANSACTION
 	ELSE COMMIT TRANSACTION
 END
+
+GO
 
 EXEC punishNotoriousResearchers '2005-09-02', 'Regulators of Mouse and Human Beta Cell Proliferation'
 
