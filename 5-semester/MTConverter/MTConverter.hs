@@ -1,6 +1,6 @@
 import qualified Data.Text    as Text
 import qualified Data.Text.IO as Text
-import System.IO.Unsafe -- Real bad Haskell code, yet works ad hoc for a really simple purpose
+import System.IO.Unsafe -- real bad Haskell code, yet works ad hoc for a really simple purpose
 import Data.List
 import Data.List.Split
 
@@ -12,7 +12,7 @@ data GrammarRule = Rule ([String], [String]) --deriving(Show)
 data Grammar = Gr [GrammarRule] deriving(Show)
 
 instance Show GrammarRule where
-  show (Rule (list1, list2)) = "'" ++ (concat list1) ++ "' -> '" ++ (concat list2) ++ "'"
+  show (Rule (list1, list2)) = (concat list1) ++ " -> " ++ (concat list2)
 
 blank = "_"
 f = "f" -- special "end" symbol

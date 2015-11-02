@@ -1,107 +1,4 @@
-CREATE TABLE Cabinet
-(
-id INT NOT NULL IDENTITY,
-personCapacity INT NOT NULL,
-CONSTRAINT PK_Cabinet PRIMARY KEY (id)
-);
-
-CREATE TABLE EquipmentType
-(
-id INT NOT NULL IDENTITY,
-name NVARCHAR(256),
-CONSTRAINT PK_EquipmentType PRIMARY KEY (id)
-);
-
-CREATE TABLE Equipment
-(
-id INT NOT NULL IDENTITY,
-equipmentTypeId INT,
-cabinetId INT,
-CONSTRAINT PK_Equipment PRIMARY KEY (id)
-);
-
-CREATE TABLE Researcher
-(
-researchId INT,
-id INT NOT NULL IDENTITY,
-firstName NVARCHAR(256) NOT NULL,
-lastName NVARCHAR(256) NOT NULL,
-degree NVARCHAR,
-CONSTRAINT PK_Researcher PRIMARY KEY (id)
-);
-
-CREATE TABLE RawMaterial
-(
-id INT NOT NULL IDENTITY,
-name NVARCHAR(256) NOT NULL,
-materialWeight INT NOT NULL,
-researcherId INT,
-CONSTRAINT PK_RawMaterial PRIMARY KEY (id)
-);
-
-CREATE TABLE ResearcherCabinet
-(
-id INT NOT NULL IDENTITY,
-researcherId INT,
-cabinetId INT,
-resCabDate DATE NOT NULL,
-CONSTRAINT PK_ResearcherCabinet PRIMARY KEY (id)
-);
-
-CREATE TABLE ResearchScope
-(
-id INT NOT NULL IDENTITY,
-name NVARCHAR(256) NOT NULL,
-scopePriority INT NOT NULL,
-CONSTRAINT ResearchScope_ScopePriority CHECK (scopePriority in (1, 2, 3)),
-CONSTRAINT PK_ResearchScope PRIMARY KEY (id)
-);
-
-CREATE TABLE Sponsor
-(
-id INT NOT NULL IDENTITY,
-name NVARCHAR(256) NOT NULL,
-CONSTRAINT PK_Sponsor PRIMARY KEY (id)
-);
-
-CREATE TABLE Research
-(
-id INT NOT NULL IDENTITY,
-name NVARCHAR(256) NOT NULL,
-scopeId INT,
-CONSTRAINT PK_Research PRIMARY KEY (id)
-);
-
-CREATE TABLE Sponsorship
-(
-id INT NOT NULL IDENTITY,
-sponsorId INT NOT NULL,
-researchId INT NOT NULL,
-price DECIMAL(16, 2) NOT NULL,
-CONSTRAINT PK_Sponsorship PRIMARY KEY (id)
-);
-
-ALTER TABLE Equipment ADD FOREIGN KEY (equipmentTypeId) REFERENCES EquipmentType (id);
-
-ALTER TABLE Equipment ADD CONSTRAINT FK_Equipment_Cabinet FOREIGN KEY (cabinetId) REFERENCES Cabinet (id);
-
-ALTER TABLE Researcher ADD CONSTRAINT FK_Researcher_Research FOREIGN KEY (researchId) REFERENCES Research (id);
-
-ALTER TABLE RawMaterial ADD CONSTRAINT FK_RawMaterial_Researcher FOREIGN KEY (researcherId) REFERENCES Researcher (id);
-
-ALTER TABLE ResearcherCabinet ADD CONSTRAINT FK_ResearcherCabinet_Researcher FOREIGN KEY (researcherId) REFERENCES Researcher (id);
-
-ALTER TABLE ResearcherCabinet ADD CONSTRAINT FK_ReseacherCabinet_Cabinet FOREIGN KEY (cabinetId) REFERENCES Cabinet (id);
-
-ALTER TABLE Research ADD CONSTRAINT FK_Research_ResearchScope FOREIGN KEY (scopeId) REFERENCES ResearchScope (id);
-
-ALTER TABLE Sponsorship ADD CONSTRAINT FK_Sponsorship_Sponsor FOREIGN KEY (sponsorId) REFERENCES Sponsor (id);
-
-ALTER TABLE Sponsorship ADD CONSTRAINT FK_Sponsorship_Research FOREIGN KEY (researchId) REFERENCES Research (id);
-
-
-
-INSERT INTO Cabinet(personCapacity) VALUES (3);
+﻿INSERT INTO Cabinet(personCapacity) VALUES (3);
 INSERT INTO Cabinet(personCapacity) VALUES (12);
 INSERT INTO Cabinet(personCapacity) VALUES (19);
 INSERT INTO Cabinet(personCapacity) VALUES (35);
@@ -177,7 +74,7 @@ INSERT INTO Researcher(firstName, lastName, degree, researchId) VALUES ('Jae', '
 INSERT INTO Researcher(firstName, lastName, degree) VALUES ('Easton', 'Trask', 1);
 INSERT INTO Researcher(firstName, lastName, degree) VALUES ('Betty', 'Rogerson', 0);
 INSERT INTO Researcher(firstName, lastName, degree) VALUES ('Stew', 'Thacker', 1);
-INSERT INTO Researcher(firstName, lastName, degree) VALUES ('Fenton', 'Elder', 1);
+INSERT INTO Researcher(firstName, lastName, degree, researchId) VALUES ('Fenton', 'Elder', 1, 3);
 
 INSERT INTO RawMaterial(name, materialWeight, researcherId) VALUES ('Albendazole', 10, 4);
 INSERT INTO RawMaterial(name, materialWeight, researcherId) VALUES ('Borage Seed Essential Oil', 20, 3);
@@ -187,8 +84,10 @@ INSERT INTO RawMaterial(name, materialWeight, researcherId) VALUES ('Alpha Arbut
 INSERT INTO RawMaterial(name, materialWeight, researcherId) VALUES ('Ginseng Extract', 60, 3);
 INSERT INTO RawMaterial(name, materialWeight, researcherId) VALUES ('Chondroitin Sulfate', 70, 3);
 INSERT INTO RawMaterial(name, materialWeight, researcherId) VALUES ('Astaxanthin', 80, 4);
-INSERT INTO RawMaterial(name, materialWeight) VALUES ('Astragalus Root Extract', 90);
+INSERT INTO RawMaterial(name, materialWeight, researcherId) VALUES ('Astragalus Root Extract', 90, 17);
 INSERT INTO RawMaterial(name, materialWeight) VALUES ('Pregnenolone', 100);
+INSERT INTO RawMaterial(name, materialWeight, researcherId) VALUES ('ExtraMaterial1', 1001, 17);
+INSERT INTO RawMaterial(name, materialWeight) VALUES ('ExtraMaterial2', 111);
 
 INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (15, 7, '2005-09-01');
 INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (12, 3, '2005-09-01');
@@ -196,6 +95,5 @@ INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (5, 8,
 INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (3, 1, '2005-09-02');
 INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (1, 2, '2005-09-02');
 INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (17, 5, '2005-09-02');
-INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (6, 1, '2005-09-03');
 INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (6, 1, '2005-09-03');
 INSERT INTO ResearcherCabinet(researcherId, cabinetId, resCabDate) VALUES (10, 4, '2005-09-03');
