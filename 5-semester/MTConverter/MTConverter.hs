@@ -1,6 +1,6 @@
 import qualified Data.Text    as Text
 import qualified Data.Text.IO as Text
-import System.IO.Unsafe -- real bad Haskell code, yet works ad hoc for a really simple purpose
+import System.IO.Unsafe -- not a Haskell style, yet works ad hoc for a really simple purpose
 import Data.List
 import Data.List.Split
 
@@ -101,6 +101,7 @@ prettyBracketThreshold = 10
 prettyBracketFsts = ['m', 'n', 'k']
 prettyBracketSnds = ['0'..'9']
 
+
 renamePretty :: Grammar -> Grammar
 renamePretty (Gr grammar) = Gr $ renamePretty' grammar where
   renamePretty' [] = []
@@ -109,15 +110,15 @@ renamePretty (Gr grammar) = Gr $ renamePretty' grammar where
       changeBrackets :: [String] -> [String]
       changeBrackets [] = []
       changeBrackets (x:xs) = (case x of 
-          val | val == br blank blank -> "B"
-          _ -> x):(changeBrackets xs)
+        val | val == br blank blank -> "B"
+        _ -> (case elemIndex x allBrackets of
+          Nothing -> x
+          Just index -> 
+            ['[', 
+             prettyBracketFsts !! (index `div` prettyBracketThreshold),
+             prettyBracketSnds !! (index `mod` prettyBracketThreshold),
+             ']'])):(changeBrackets xs)
 
-        -- Alternative renaming
-        --(case elemIndex x allBrackets of
-        --  Nothing -> x
-        --  Just index -> 
-        --    ([prettyBracketFsts !! (index `div` prettyBracketThreshold),
-        --      prettyBracketSnds !! (index `mod` prettyBracketThreshold)])):(changeBrackets xs)
 
 prettyGrammar     = renamePretty converted
 prettyGrammarList = case prettyGrammar of Gr list -> list
