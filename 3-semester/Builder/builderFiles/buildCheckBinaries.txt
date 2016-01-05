@@ -1,2 +1,0 @@
-EllipseDotIntersect.exe
-EllipseDotIntersectLib.dll

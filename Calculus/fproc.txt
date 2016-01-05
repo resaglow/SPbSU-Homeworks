@@ -1,0 +1,19 @@
+fproc := proc() 
+	local a, b, c, d, n, h, s, k, s1, value;  
+	a := 0.; 
+	b := Pi;  
+	c:= 0.; 
+	d := Pi;
+	n := 20.;
+	h := (b-a)/n; 
+	s := 0.; 
+	for k from 0 to n-1 do
+		s := s + 1/2 * h * (sin(h*k)*sin(k*h)+sin((k+1)h)*sin((k+1)h));
+	end do; 
+	s1 := 0.;
+	for k from 0 to n-1 do 
+		s1 := s1 + 1/2 * h * (3*h*k*h*k+3*((k+1)*h)*((k+1)*h));
+	end do;
+	value := evalf(s1*s); 
+	print(value) 
+end proc:
