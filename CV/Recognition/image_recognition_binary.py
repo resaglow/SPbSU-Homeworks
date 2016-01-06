@@ -33,13 +33,11 @@ def gradient_descent(x, y, weights, num_steps, alpha, alpha_factor):
 
 
 def cost_function(x, y, weights):
-    num_examples_real = len(filter(lambda elem: elem != 11, y))
     num_examples = len(y)
     cost = 0
     for i in xrange(num_examples):
-        if y[i] != 11:
-            cost += math.log(1 + math.e ** (-y[i] * np.dot(weights, x[i])))
-    cost /= num_examples_real
+        cost += math.log(1 + math.e ** (-y[i] * np.dot(weights, x[i])))
+    cost /= num_examples
     return cost
 
 
@@ -49,21 +47,20 @@ def check(x, y, weights):
     tp, tn, fp, fn = 0.0, 0.0, 0.0, 0.0
 
     for i in xrange(len(y)):
-        if (y[i]) != 11:
-            s = np.dot(weights, x[i])
-            h = 1.0 / (1 + math.e ** (-s))
-            if h > 0.5 and y[i] == 1:
-                tp += 1
-                # print("Success")
-            elif h <= 0.5 and y[i] == -1:
-                tn += 1
-                # print("Success")
-            elif h > 0.5 and y[i] == -1:
-                fp += 1
-                # print("Failure")
-            elif h <= 0.5 and y[i] == 1:
-                fn += 1
-                # print("Failure")
+        s = np.dot(weights, x[i])
+        h = 1.0 / (1 + math.e ** (-s))
+        if h > 0.5 and y[i] == 1:
+            tp += 1
+            # print("Success")
+        elif h <= 0.5 and y[i] == -1:
+            tn += 1
+            # print("Success")
+        elif h > 0.5 and y[i] == -1:
+            fp += 1
+            # print("Failure")
+        elif h <= 0.5 and y[i] == 1:
+            fn += 1
+            # print("Failure")
 
     print('TP: {}, TN: {}, FP: {}, FN: {}'.format(tp, tn, fp, fn))
     print('Precision = {}, Recall = {}'.format(tp / (tp + fp), tp / (tp + fn)))
