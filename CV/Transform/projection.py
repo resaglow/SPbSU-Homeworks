@@ -13,18 +13,20 @@ def perspective(cur_point, angle):
 
 def orthographic(points):
     orth_matrix = np.asmatrix(
-        np.array([[int(img_x / 10), 0, 0, 0],
-                  [0, int(img_y/10), 0, 0],
-                  [0, 0, 0, 0],
-                  [int(img_x / 10), int(img_y / 10), 0, 1]]))
-    return np.asmatrix(points) * orth_matrix
+        np.array([[int(img_x / 10), 0, 0, int(img_x / 5)],
+                  [0, int(img_x / 10), 0, int(img_y / 5)],
+                  [0, 0, 0, 0]]))
+    return (orth_matrix * np.asmatrix(points).T).T
 
+
+side = 6
+z = math.sqrt(2) + math.sqrt(26)
 
 square_points = np.array(
-    [[0, 0, 2 * math.sqrt(6), 1],
-     [6, 0, 2 * math.sqrt(6), 1],
-     [0, 6 / math.sqrt(2), 2 * math.sqrt(6) + 6 / math.sqrt(2), 1],
-     [6, 6 / math.sqrt(2), 2 * math.sqrt(6) + 6 / math.sqrt(2), 1]]
+    [[0, 0, z, 1],
+     [side, 0, z, 1],
+     [0, side / math.sqrt(2), z + side / math.sqrt(2), 1],
+     [side, side / math.sqrt(2), z + side / math.sqrt(2), 1]]
 )
 
 img_x = 550
