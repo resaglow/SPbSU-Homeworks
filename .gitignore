@@ -6,6 +6,7 @@
 *.user
 *.sln.docstates
 *.userprefs
+App.Config
 
 # Build results
 [Dd]ebug/
@@ -70,6 +71,8 @@ ipch/
 *.opensdf
 *.sdf
 *.cachefile
+*.vc.db
+*.VC.db
 
 # Visual Studio profiler
 *.psess
